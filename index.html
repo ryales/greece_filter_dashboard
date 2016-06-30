@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <title></title>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/dc.css" />
+  <link rel="stylesheet" type="text/css" href="css/site.css">
+
+  <!-- JavaScript Libraries -->
+  <script src="js/jquery.js"></script>
+  <!--<script src="js/d3.v4.min.js"></script>-->
+  <script src="js/d3.min.js"></script>
+  <script src="js/queue.js"></script>
+  <script src="js/crossfilter.min.js"></script>
+  <script src="js/dc.min.js"></script>
+  
+  
+  
+
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">IFRC Europe Region: Greece</a>
+      </div> <!-- /.navbar-header -->
+    </div> <!-- /.container-fluid -->
+  </nav>
+
+  <div class="container">
+      <div class="row">
+          <div class="col-md-7">
+              <div class="his_chart" id="serv_count"><h4>Total Services by Week (Filterable)</h4></div>
+              <div class="his_chart" id="serv_stats"><h4>Service Sectors</h4></div>
+              <div class="his_chart" id="dist_count"><h4>Total Distributions by Week (Filterable)</h4></div>
+              <div class="his_chart" id="dist_stats"><h4>Distribution Categories</h4></div>
+          </div>
+          <div class="col-md-3">
+              <div class="his_chart" id="location"><h4>Red Cross Location (Filterable)</h4></div>
+              <!--<div class="his_chart" id="rfl"><h4>RFL for Vulnerable (Filterable)</h4></div>-->
+              <!--<div class="his_chart" id="under5"><h4>Distributions to Under 5s (Filterable)</h4></div>-->
+          </div>
+          <div class="col-md-2">
+              <div class="his_chart">
+                  <a class="reset btn btn-primary btn-sm" id="reset" href="javascript:dc.filterAll();dc.redrawAll();">Reset All</a>
+              </div>                      
+              <div class="his_chart" id="servicestotal">
+                  <h4>Total Services</h4>
+                  <span class="filter-count headline"></span>
+              </div>
+              <div class="his_chart" id="connectivitytotal">
+                  <h4>Connectivity</h4>
+                  <span class="filter-count headline"></span>
+              </div>
+                    <div class="his_chart" id="healthtotal">
+                        <h4>Health</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="his_chart" id="washtotal">
+                        <h4>WASH</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="his_chart" id="rfltotal">
+                        <h4>RFL</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="his_chart" id="psstotal">
+                        <h4>PSS</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                      
+              <div class="his_chart" id="disttotal">
+                  <h4>Total Distributions</h4>
+                  <span class="filter-count headline"></span>
+              </div>
+              <div class="his_chart" id="foodtotal">
+                  <h4>Food</h4>
+                  <span class="filter-count headline"></span>
+              </div>
+                    <div class="his_chart" id="hygienetotal">
+                        <h4>Hygiene</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="his_chart" id="watertotal">
+                        <h4>Water Bottles</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="his_chart" id="textilestotal">
+                        <h4>Textiles</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                </div>
+      </div>
+    </div>
+
+    <footer class="container-fluid"></footer>
+
+    <script src="js/grc_dashboard.js"></script>
+  </nav>
+</body>
+</html>
