@@ -7,6 +7,7 @@
 
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/leaflet.css" />
   <link rel="stylesheet" type="text/css" href="css/dc.css" />
   <link rel="stylesheet" type="text/css" href="css/site.css">
 
@@ -15,11 +16,15 @@
   <!--<script src="js/d3.v4.min.js"></script>-->
   <script src="js/d3.min.js"></script>
   <script src="js/queue.js"></script>
+  <script src="js/leaflet.js"></script>
   <script src="js/crossfilter.min.js"></script>
   <script src="js/dc.min.js"></script>
   
-  
-  
+  <style>
+    #map {
+    height: 250px;
+  }
+  </style>  
 
 </head>
 <body>
@@ -29,29 +34,22 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">IFRC Europe Region: Greece</a>
       </div> <!-- /.navbar-header -->
+      <a class="reset btn btn-primary btn-sm" id="reset" href="javascript:dc.filterAll();dc.redrawAll();">Reset All</a>
     </div> <!-- /.container-fluid -->
   </nav>
 
   <div class="container">
       <div class="row">
-          <div class="col-md-7">
-              <div class="his_chart" id="serv_count"><h4>Total Services by Week (Filterable)</h4></div>
-              <div class="his_chart" id="serv_stats"><h4>Service Sectors</h4></div>
-              <div class="his_chart" id="dist_count"><h4>Total Distributions by Week (Filterable)</h4></div>
-              <div class="his_chart" id="dist_stats"><h4>Distribution Categories</h4></div>
+          <div class="col-md-5">
+              <div class="his_chart" id="serv_count"><h3>Total Interactions by Week</h3></div>
+              <div class="his_chart" id="serv_stats"><h3>Service Sectors</h3></div>
+              <!--<div class="his_chart" id="dist_count"><h4>Total Distributions by Week (Filterable)</h4></div>-->
+              <div class="his_chart" id="dist_stats"><h3>Distribution Categories</h3></div>
           </div>
-          <div class="col-md-3">
-              <div class="his_chart" id="location"><h4>Red Cross Location (Filterable)</h4></div>
-              <!--<div class="his_chart" id="rfl"><h4>RFL for Vulnerable (Filterable)</h4></div>-->
-              <!--<div class="his_chart" id="under5"><h4>Distributions to Under 5s (Filterable)</h4></div>-->
-          </div>
-          <div class="col-md-2">
-              <div class="his_chart">
-                  <a class="reset btn btn-primary btn-sm" id="reset" href="javascript:dc.filterAll();dc.redrawAll();">Reset All</a>
-              </div>                      
+          <div class="col-md-2">                      
               <div class="his_chart" id="servicestotal">
-                  <h4>Total Services</h4>
-                  <span class="filter-count headline"></span>
+                  <h3>Services<br/>
+                  <span class="filter-count headline"></span></h3>
               </div>
               <div class="his_chart" id="connectivitytotal">
                   <h4>Connectivity</h4>
@@ -73,10 +71,11 @@
                         <h4>PSS</h4>
                         <span class="filter-count headline"></span>
                     </div>
-                      
+            </div>
+            <div class="col-md-2">
               <div class="his_chart" id="disttotal">
-                  <h4>Total Distributions</h4>
-                  <span class="filter-count headline"></span>
+                  <h3>Distributions<br/>
+                  <span class="filter-count headline"></span></h3>
               </div>
               <div class="his_chart" id="foodtotal">
                   <h4>Food</h4>
@@ -90,16 +89,77 @@
                         <h4>Water Bottles</h4>
                         <span class="filter-count headline"></span>
                     </div>
-                    <div class="his_chart" id="textilestotal">
+                    <div class="his_chart" id="clothingtotal">
+                        <h4>Clothing</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="his_chart" id="warmthtotal">
+                        <h4>Sleeping Bags &amp; Camp Mats</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="his_chart" id="ramadantotal">
+                        <h4>Ramadan Items</h4>
+                        <span class="filter-count headline"></span>
+                    </div>
+                    <div class="Duffel Bags &amp; Backpacks" id="bagstotal">
                         <h4>Textiles</h4>
                         <span class="filter-count headline"></span>
                     </div>
                 </div>
-      </div>
+                <div class="col-md-3">
+                  <!--<div id="map"></div>-->
+                  <div class="his_chart" id="location"><h3>Red Cross Locations (Filterable)</h3></div>
+                  <!--<div class="his_chart" id="rfl"><h4>RFL for Vulnerable (Filterable)</h4></div>
+                  <div class="his_chart" id="under5"><h4>Distributions By Age (Filterable)</h4></div>-->
+              </div>
+          </div>
     </div>
 
     <footer class="container-fluid"></footer>
 
+    <script type="text/javascript">
+      var map = L.map('map').setView([38, 25], 5);
+
+    // Add a nice base map of the DRC as our 
+    // background layer
+    L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
+        minZoom: 3,
+        maxZoom: 10
+    }).addTo(map);
+
+    //define how the layer is styled on the map
+    var layerOptions = {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, {
+                radius: 5,
+                fillColor: "#ff7800",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            });
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.locationName);
+        }
+    };
+
+// fetch the data from the ActivityInfo server asynchronously
+// using jquery
+$.ajax({
+    type: "GET",
+    url: "http://www.activityinfo.org/resources/sites/points?activity=74621&callback=?",
+    dataType: 'jsonp',
+    success: function (json) {
+        L.geoJson(json, layerOptions).addTo(map);
+        console.log(json);
+    },
+    error: function () {
+        alert("Error");
+    },
+});
+</script>
     <script src="js/grc_dashboard.js"></script>
   </nav>
 </body>
